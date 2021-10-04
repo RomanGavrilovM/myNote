@@ -1,5 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Заметки</string>
     <string name="create_note">Создать заметку</string>
     <string name="title">Заглавие</string>
     <string name="description">Описание</string>

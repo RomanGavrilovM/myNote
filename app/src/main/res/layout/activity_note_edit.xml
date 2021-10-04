@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".ui.NoteEditActivity">
+
+
+
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/note_list_toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:title="@string/create_note" />
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <EditText
+        android:id="@+id/head_edit_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/head_text_size"
+        android:textStyle="bold"
+        android:hint="@string/title"
+        />
+    <EditText
+        android:id="@+id/description_edit_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/description_text_size"
+        android:hint="@string/description"
+        />
+    <TextView
+        android:id="@+id/data_text_view_create_note"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/data_text"
+        android:textSize="@dimen/old_data"
+        android:hint="@string/description"
+        />
+
+
+    <TextView
+        android:id="@+id/name_data_text_view_create_note"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="@dimen/head_text_size"
+        android:text="@string/name_data_text"
+        android:textSize="@dimen/description_text_size"
+        android:hint="@string/description"
+        />
+    <DatePicker
+        android:id="@+id/data_picket"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:spinnersShown="true"
+        android:datePickerMode="spinner"
+        android:calendarViewShown="false"
+        />
+
+    <TextView
+        android:id="@+id/data_text_year"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/year_text"
+        android:visibility="visible"
+        />
+
+</LinearLayout>
