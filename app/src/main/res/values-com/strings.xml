@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Заметки</string>
+    <string name="create_note">Создание заметки</string>
+    <string name="title">Заголовок</string>
+    <string name="description">Описание</string>
+    <string name="data_text">"Прошлая дата: "</string>
+    <string name="name_data_text">"Установите дату: "</string>
+    <string name="year_text">" года."</string>
+    <string name="menu_setting">Настройки </string>
+    <string name="nav_name">Roman</string>
+    <string name="nav_surname">Gavrilov</string>
+</resources>
