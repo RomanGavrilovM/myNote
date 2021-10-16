@@ -5,35 +5,34 @@ import android.os.Parcelable;
 
 import androidx.annotation.Nullable;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Locale;
+
 public class Note implements Parcelable {
+
     @Nullable
     private Integer id;
-    private String head;
-    private String description;
-    private String date;
+    private String title;
+    private String detail;
+    private long creationDate;
 
-    public Note() {
-    }
-
-    public Note(String head, String description, String date) {
-        this.head = head;
-        this.description = description;
-        this.date = date;
+    public Note(String title, String detail) {
+        this.title = title;
+        this.detail = detail;
+        this.creationDate = Calendar.getInstance().getTimeInMillis();
     }
 
     protected Note(Parcel in) {
-        id = getOptIn(in);
-        head = in.readString();
-        description = in.readString();
-        date = in.readString();
-    }
-
-    private Integer getOptIn(Parcel in) {
         if (in.readByte() == 0) {
-            return null;
+            id = null;
         } else {
-            return in.readInt();
+            id = in.readInt();
         }
+        title = in.readString();
+        detail = in.readString();
+        creationDate = in.readLong();
     }
 
     public static final Creator<Note> CREATOR = new Creator<Note>() {
@@ -57,28 +56,30 @@ public class Note implements Parcelable {
         this.id = id;
     }
 
-    public String getHead() {
-        return head;
+    public String getTitle() {
+        return title;
     }
 
-    public void setHead(String head) {
-        this.head = head;
+    public void setTitle(String title) {
+        this.title = title;
     }
 
-    public String getDescription() {
-        return description;
+    public String getDetail() {
+        return detail;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public void setDetail(String detail) {
+        this.detail = detail;
     }
 
-    public String getDate() {
-        return date;
+    public String getCreationDate() {
+        Date date = new Date(creationDate);
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.y HH:mm", Locale.getDefault());
+        return dateFormat.format(date);
     }
 
-    public void setDate(String date) {
-        this.date = date;
+    public void setCreationDate(long creationDate) {
+        this.creationDate = creationDate;
     }
 
     @Override
@@ -87,19 +88,16 @@ public class Note implements Parcelable {
     }
 
     @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        putOptInt(dest, id);
-        dest.writeString(head);
-        dest.writeString(description);
-        dest.writeString(date);
+    public void writeToParcel(Parcel parcel, int i) {
+        if (id == null) {
+            parcel.writeByte((byte) 0);
+        } else {
+            parcel.writeByte((byte) 1);
+            parcel.writeInt(id);
+        }
+        parcel.writeString(title);
+        parcel.writeString(detail);
+        parcel.writeLong(creationDate);
     }
 
-    private void putOptInt(Parcel dest, Integer id) {
-        if (id == null) {
-            dest.writeByte((byte) 0);
-        } else {
-            dest.writeByte((byte) 1);
-            dest.writeInt(id);
-        }
-    }
 }

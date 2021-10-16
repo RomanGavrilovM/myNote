@@ -1,55 +1,56 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.google.android.material.circularreveal.CircularRevealFrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:clickable="true"
-    android:focusable="true"
-    android:padding="5dp"
-    android:background="@color/cardview_dark_background">
+    android:focusable="true">
 
     <com.google.android.material.card.MaterialCardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:cardCornerRadius="20dp"
-        app:cardElevation="20dp">
+        app:cardCornerRadius="@dimen/corner_radius"
+        app:cardUseCompatPadding="true">
 
-        <RelativeLayout
-            android:orientation="vertical"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/recycler_view">
+            android:background="?selectableItemBackground"
+            android:orientation="vertical"
+            android:padding="@dimen/double_margin">
 
-            <LinearLayout
-                android:id="@+id/linear"
+            <TextView
+                android:id="@+id/title_text_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:maxLines="1"
+                android:singleLine="true"
+                android:textSize="@dimen/large_text_size"
+                android:textStyle="bold"
+                tools:text="Заголовок заметки" />
+
+            <TextView
+                android:id="@+id/detail_text_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:maxLines="2"
+                android:textSize="@dimen/medium_text_size"
+                tools:text="Это очень длинный текст заметки блаблаблабла
+                бла бла блаблаблаблаблабла бла бла блаблаблаблаблабла бла" />
+
+            <TextView
+                android:id="@+id/date_text_view"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="vertical" >
+                android:layout_gravity="end"
+                android:layout_margin="@dimen/default_margin"
+                android:textSize="@dimen/small_text_size"
+                tools:text="12.06.2020 18:43" />
 
-            <TextView
-                android:id="@+id/text_view_head"
-                android:layout_width="match_parent"
-                tools:text="Заголовок"
-                android:maxLines="1"
-                android:textStyle="bold"
-                android:textSize="@dimen/head_text_size"
-                android:layout_height="wrap_content"/>
-            <TextView
-                android:id="@+id/text_view_description"
-                android:maxLines="2"
-                android:ellipsize="end"
-                tools:text="eriufgbrdfniuwerfoiwerjfoi auwehrfiuw aouiwherfoi ro[ihfwe4 oihr oiewhfoiawehgoiwrh owiarhg[oiaw roiawrjhgoiawer hoawerihgoai hoeraihatg ai"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
+        </LinearLayout>
 
-            <TextView
-                android:id="@+id/text_view_data"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
-            </LinearLayout>
-
-
-        </RelativeLayout>
     </com.google.android.material.card.MaterialCardView>
-</com.google.android.material.circularreveal.CircularRevealFrameLayout>
+
+</FrameLayout>

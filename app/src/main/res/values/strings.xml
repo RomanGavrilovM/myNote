@@ -1,12 +1,31 @@
 <resources>
-    <string name="app_name">Заметки</string>
-    <string name="create_note">Создать заметку</string>
-    <string name="title">Заглавие</string>
-    <string name="description">Описание</string>
-    <string name="data_text">"Прошедшая дата: "</string>
-    <string name="name_data_text">"Назначить дату: "</string>
-    <string name="year_text">" год."</string>
-    <string name="menu_setting">Настройки </string>
-    <string name="nav_name">Roman</string>
-    <string name="nav_surname">Gavrilov</string>
+    <string name="app_name">My Notes</string>
+
+    <string name="create_note_menu">Create note</string>
+
+    <!--    EditText-->
+    <string name="title_edit_text">Title</string>
+    <string name="detail_edit_text">Note details</string>
+    <string name="date_time_edit_text">Date</string>
+
+    <!--    Toolbar-->
+    <string name="save_note_button">Save</string>
+    <string name="edit_note_toolbar">Edit note</string>
+
+    <!--    NavigationDrawer-->
+    <string name="navigation_drawer_open" translatable="false">Open navigation drawer</string>
+    <string name="navigation_drawer_close" translatable="false">Close navigation drawer</string>
+    <string name="notes_list_drawer_menu">Notes list</string>
+    <string name="settings_drawer_menu">Settings</string>
+    <string name="about_app_drawer_menu">About app</string>
+
+    <!--    Note item popup menu-->
+    <string name="edit_note_popup">Edit</string>
+    <string name="delete_note_popup">Delete</string>
+    <string name="successfully_deleted">"Successfully deleted: "</string>
+    <string name="fail_to_delete">Can\'t delete this note</string>
+
+    <!--    Exit dialog-->
+    <string name="exit_dialog_title">Do you want to exit the application?</string>
+    <string name="exit_dialog_toast">Application My Notes is closed</string>
 </resources>
