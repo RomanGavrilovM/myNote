@@ -10,8 +10,13 @@
             android:title="Notes list" />
 
         <item
-            android:id="@+id/drawer_item_note_edit"
-            android:icon="@drawable/ic_note_add"
-            android:title="Edit note" />
+            android:id="@+id/drawer_item_settings"
+            android:icon="@drawable/ic_settings"
+            android:title="Settings" />
+
+        <item
+            android:id="@+id/drawer_item_about_app"
+            android:icon="@drawable/ic_about_add"
+            android:title="About app" />
     </group>
 </menu>
