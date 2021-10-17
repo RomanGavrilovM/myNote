@@ -28,4 +28,5 @@
     <!--    Exit dialog-->
     <string name="exit_dialog_title">Do you want to exit the application?</string>
     <string name="exit_dialog_toast">Application My Notes is closed</string>
+
 </resources>

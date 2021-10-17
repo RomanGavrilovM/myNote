@@ -26,7 +26,7 @@ public class NotesListFragment extends Fragment {
     private final NotesAdapter adapter = new NotesAdapter();
 
     interface Controller {
-        void openNoteScreen(Note item);
+        void openNoteEditScreen(Note item);
     }
 
     public static NotesListFragment newInstance(Note item) {
@@ -78,7 +78,7 @@ public class NotesListFragment extends Fragment {
 
     private void onItemClick(Note item) {
 
-        controller.openNoteScreen(item);
+        controller.openNoteEditScreen(item);
     }
 
     private void getArgs() {
