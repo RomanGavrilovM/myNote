@@ -1,14 +1,13 @@
 package com.example.mynote.ui;
 
 import android.view.ViewGroup;
-
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
-
 import java.util.ArrayList;
 import java.util.List;
 
-import com.example.mynote.domain.Note;
+
+import com.example.mynote.model.entities.Note;
 
 public class NotesAdapter extends RecyclerView.Adapter<NoteViewHolder> {
     private List<Note> data = new ArrayList<>();
@@ -17,6 +16,10 @@ public class NotesAdapter extends RecyclerView.Adapter<NoteViewHolder> {
     public void setData(List<Note> data) {
         this.data = data;
         notifyDataSetChanged();
+    }
+
+    public List<Note> getData(){
+        return new ArrayList<>(data);
     }
 
     @NonNull
@@ -41,9 +44,5 @@ public class NotesAdapter extends RecyclerView.Adapter<NoteViewHolder> {
 
     public void setOnItemClickListener(OnItemClickListener listener) {
         clickListener = listener;
-    }
-
-    interface OnItemClickListener {
-        void onItemClick(Note item);
     }
 }

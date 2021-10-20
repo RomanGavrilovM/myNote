@@ -1,4 +1,4 @@
-package com.example.mynote.ui;
+package com.example.mynote.ui.screens;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;

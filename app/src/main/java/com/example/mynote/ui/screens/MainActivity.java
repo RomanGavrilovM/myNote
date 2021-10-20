@@ -1,4 +1,4 @@
-package com.example.mynote.ui;
+package com.example.mynote.ui.screens;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -9,13 +9,12 @@ import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
-
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.widget.FrameLayout;
+
 
 import com.google.android.material.navigation.NavigationView;
 
@@ -24,9 +23,11 @@ import java.util.Map;
 import java.util.Objects;
 
 import com.example.mynote.R;
-import com.example.mynote.domain.Note;
+
+import com.example.mynote.model.entities.Note;
 
 public class MainActivity extends AppCompatActivity implements NotesListFragment.Controller, NoteEditFragment.Controller {
+
     private final Map<Integer, Fragment> fragments = createFragments();
     private final FragmentManager fragmentManager = getSupportFragmentManager();
 
@@ -85,13 +86,11 @@ public class MainActivity extends AppCompatActivity implements NotesListFragment
             fragmentManager
                     .beginTransaction()
                     .replace(R.id.land_fragment_container, NoteEditFragment.newInstance(item))
-                    .addToBackStack(null)
                     .commit();
         } else {
             fragmentManager
                     .beginTransaction()
                     .replace(R.id.main_fragment_container, NoteEditFragment.newInstance(item))
-                    .addToBackStack(null)
                     .commit();
         }
     }

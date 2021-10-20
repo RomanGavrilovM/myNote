@@ -5,12 +5,12 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".ui.NotesListFragment">
+    tools:context=".ui.screens.NotesListFragment">
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:listitem="@layout/item_note" />
+        tools:listitem="@layout/item_note_view_holder" />
 
 </LinearLayout>

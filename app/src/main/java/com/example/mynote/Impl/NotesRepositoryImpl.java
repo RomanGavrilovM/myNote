@@ -4,13 +4,13 @@ import androidx.annotation.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
-import com.example.mynote.domain.Note;
-import com.example.mynote.domain.NotesRepository;
 
+import com.example.mynote.model.entities.Note;
+import com.example.mynote.model.repos.NotesRepository;
 public class NotesRepositoryImpl implements NotesRepository {
     private final ArrayList<Note> cache = new ArrayList<>();
-    private int counter = 0;
 
     @Override
     public List<Note> getNotes() {
@@ -19,17 +19,17 @@ public class NotesRepositoryImpl implements NotesRepository {
 
     @Nullable
     @Override
-    public Integer createNote(Note note) {
-        int newId = ++counter;
-        note.setId(newId);
+    public String createNote(Note note) {
+        String newId = UUID.randomUUID().toString();
+        note.setUid(newId);
         cache.add(note);
         return newId;
     }
 
     @Override
-    public boolean deleteNote(int id) {
+    public boolean deleteNote(String uid){
         for (int i = 0; i < cache.size(); i++) {
-            if (cache.get(i).getId() == id) {
+            if (cache.get(i).getUid().equals(uid)) {
                 cache.remove(i);
                 return true;
             }
@@ -38,10 +38,10 @@ public class NotesRepositoryImpl implements NotesRepository {
     }
 
     @Override
-    public boolean updateNote(int id, Note note) {
-        deleteNote(id);
-        note.setId(id);
-        cache.add(id - 1, note);
+    public boolean updateNote(String uid, Note note) {
+        deleteNote(uid);
+        note.setUid(uid);
+        cache.add(note);
         return true;
     }
 }

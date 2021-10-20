@@ -1,4 +1,4 @@
-package com.example.mynote.ui;
+package com.example.mynote.ui.screens;
 
 
 import android.app.DatePickerDialog;
@@ -22,7 +22,7 @@ import java.util.Date;
 import java.util.Locale;
 
 import com.example.mynote.R;
-import com.example.mynote.domain.Note;
+import com.example.mynote.model.entities.Note;
 
 public class NoteEditFragment extends Fragment {
     public static final String NOTE_ARGS_KEY = "NOTE_ARGS_KEY";

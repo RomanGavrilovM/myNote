@@ -1,19 +1,18 @@
-package com.example.mynote.domain;
+package com.example.mynote.model.entities;
 
 import android.os.Parcel;
 import android.os.Parcelable;
-
 import androidx.annotation.Nullable;
-
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
-public class Note implements Parcelable {
+
+public class Note implements Parcelable{
 
     @Nullable
-    private Integer id;
+    private String uid;
     private String title;
     private String detail;
     private long creationDate;
@@ -25,11 +24,7 @@ public class Note implements Parcelable {
     }
 
     protected Note(Parcel in) {
-        if (in.readByte() == 0) {
-            id = null;
-        } else {
-            id = in.readInt();
-        }
+        uid = in.readString();
         title = in.readString();
         detail = in.readString();
         creationDate = in.readLong();
@@ -48,12 +43,12 @@ public class Note implements Parcelable {
     };
 
     @Nullable
-    public Integer getId() {
-        return id;
+    public String getUid() {
+        return uid;
     }
 
-    public void setId(@Nullable Integer id) {
-        this.id = id;
+    public void setUid(@Nullable String uid) {
+        this.uid = uid;
     }
 
     public String getTitle() {
@@ -89,15 +84,9 @@ public class Note implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel parcel, int i) {
-        if (id == null) {
-            parcel.writeByte((byte) 0);
-        } else {
-            parcel.writeByte((byte) 1);
-            parcel.writeInt(id);
-        }
+        parcel.writeString(uid);
         parcel.writeString(title);
         parcel.writeString(detail);
         parcel.writeLong(creationDate);
     }
-
 }
