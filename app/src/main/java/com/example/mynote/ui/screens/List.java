@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.PopupMenu;
 import android.widget.Toast;
+import androidx.recyclerview.widget.DiffUtil;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -17,29 +18,30 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.mynote.App;
+import com.example.mynote.Impl.NotesDiffCallback;
 import com.example.mynote.R;
 import com.example.mynote.model.entities.Note;
 import com.example.mynote.ui.NotesAdapter;
 import com.example.mynote.ui.OnItemClickListener;
 
-public class NotesListFragment extends Fragment {
-    protected App app;
-    private RecyclerView recyclerView;
-
-    private Controller controller;
-
+public class List extends Fragment {
+    private App app;
     private final NotesAdapter adapter = new NotesAdapter();
+
+    @SuppressWarnings("FieldCanBeLocal")
+    private RecyclerView recyclerView;
+    private Controller controller;
 
     interface Controller {
         void openNoteEditScreen(Note item);
     }
 
-    public static NotesListFragment newInstance(Note item) {
-        NotesListFragment notesListFragment = new NotesListFragment();
+    public static List newInstance(Note item) {
+        List list = new List();
         Bundle bundle = new Bundle();
-        bundle.putParcelable(NoteEditFragment.NOTE_ARGS_KEY, item);
-        notesListFragment.setArguments(bundle);
-        return notesListFragment;
+        bundle.putParcelable(Edit.NOTE_ARGS_KEY, item);
+        list.setArguments(bundle);
+        return list;
     }
 
     @Override
@@ -77,7 +79,7 @@ public class NotesListFragment extends Fragment {
         recyclerView = view.findViewById(R.id.recycler_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setAdapter(adapter);
-        adapter.setData(app.notesRepository.getNotes());
+        adapter.setData(app.getNotesRepository().getNotes());
         adapter.setOnItemClickListener(new OnItemClickListener() {
             @Override
             public void onItemClick(Note item, int position) {
@@ -110,11 +112,12 @@ public class NotesListFragment extends Fragment {
     }
 
     private void deleteItem(Note item, int position) {
-        if (app.notesRepository.deleteNote(item.getUid())) {
+        if (app.getNotesRepository().deleteNote(item.getUid())) {
             Toast.makeText(requireActivity(),
                     getString(R.string.successfully_deleted) + item.getTitle(),
                     Toast.LENGTH_SHORT).show();
-            adapter.notifyItemRemoved(position);
+ //           adapter.notifyItemRemoved(position);
+            checkDiffRepo();
         } else {
             Toast.makeText(requireActivity(),
                     R.string.fail_to_delete,
@@ -125,14 +128,21 @@ public class NotesListFragment extends Fragment {
     private void getArgs() {
         Bundle data = getArguments();
         if (data != null) {
-            Note note = data.getParcelable(NoteEditFragment.NOTE_ARGS_KEY);
+            Note note = data.getParcelable(Edit.NOTE_ARGS_KEY);
             if (note != null) {
                 if (note.getUid() == null) {
-                    app.notesRepository.createNote(note);
+                    app.getNotesRepository().createNote(note);
+                    checkDiffRepo();
                 } else {
-                    app.notesRepository.updateNote(note.getUid(), note);
+                    app.getNotesRepository().updateNote(note.getUid(), note);
+                    checkDiffRepo();
                 }
             }
         }
+    }
+    public void checkDiffRepo(){
+        NotesDiffCallback notesDiffCallback = new NotesDiffCallback(adapter.getData(), app.getNotesRepository().getNotes());
+        DiffUtil.DiffResult result = DiffUtil.calculateDiff(notesDiffCallback, true);
+        result.dispatchUpdatesTo(adapter);
     }
 }

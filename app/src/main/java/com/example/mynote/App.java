@@ -6,12 +6,15 @@ import com.example.mynote.model.entities.Note;
 import com.example.mynote.model.repos.NotesRepository;
 
 public class App extends Application {
-    public final NotesRepository notesRepository = new NotesRepositoryImpl();
+    private final NotesRepository notesRepository = new NotesRepositoryImpl();
 
     @Override
     public void onCreate() {
         super.onCreate();
         fillRepositoryByTestValues();
+    }
+    public NotesRepository getNotesRepository() {
+        return notesRepository;
     }
 
     private void fillRepositoryByTestValues() {

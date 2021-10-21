@@ -24,7 +24,7 @@ import java.util.Locale;
 import com.example.mynote.R;
 import com.example.mynote.model.entities.Note;
 
-public class NoteEditFragment extends Fragment {
+public class Edit extends Fragment {
     public static final String NOTE_ARGS_KEY = "NOTE_ARGS_KEY";
 
     private Controller controller;
@@ -42,12 +42,12 @@ public class NoteEditFragment extends Fragment {
         void openNotesListScreen(Note item);
     }
 
-    public static NoteEditFragment newInstance(Note item) {
-        NoteEditFragment noteEditFragment = new NoteEditFragment();
+    public static Edit newInstance(Note item) {
+        Edit edit = new Edit();
         Bundle bundle = new Bundle();
         bundle.putParcelable(NOTE_ARGS_KEY, item);
-        noteEditFragment.setArguments(bundle);
-        return noteEditFragment;
+        edit.setArguments(bundle);
+        return edit;
     }
 
     @Override
