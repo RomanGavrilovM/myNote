@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".ui.screens.Edit">
+
+    <EditText
+        android:id="@+id/title_edit_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/default_margin"
+        android:hint="@string/title_edit_text"
+        android:inputType="text"
+        android:textSize="@dimen/large_text_size" />
+
+    <EditText
+        android:id="@+id/date_time_edit_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/default_margin"
+        android:hint="@string/date_time_edit_text"
+        android:textSize="@dimen/medium_text_size"
+        android:clickable="false"
+        android:focusable="false" />
+    <EditText
+        android:id="@+id/detail_edit_text"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_margin="@dimen/default_margin"
+        android:layout_weight="1"
+        android:background="@null"
+        android:gravity="start"
+        android:hint="@string/detail_edit_text"
+        android:inputType="textMultiLine"
+        android:textSize="@dimen/medium_text_size" />
+
+
+
+    <Button
+        android:id="@+id/save_note_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/default_margin"
+        android:text="@string/save_note_button" />
+
+</LinearLayout>

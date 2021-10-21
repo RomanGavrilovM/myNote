@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Мои заметки</string>
+
+    <string name="create_note_menu">Создать заметку</string>
+
+    <!--    EditText-->
+    <string name="title_edit_text">Заголовок</string>
+    <string name="detail_edit_text">Текст заметки</string>
+    <string name="date_time_edit_text">Дата</string>
+
+    <!--    Toolbar-->
+    <string name="save_note_button">Сохранить</string>
+    <string name="edit_note_toolbar">Редактирование заметки</string>
+
+    <!--    NavigationDrawer-->
+    <string name="notes_list_drawer_menu">Заметки</string>
+    <string name="settings_drawer_menu">Настройки</string>
+    <string name="about_app_drawer_menu">О приложении</string>
+
+    <!--    Note item popup menu-->
+    <string name="edit_note_popup">Редактировать</string>
+    <string name="delete_note_popup">Удалить</string>
+    <string name="successfully_deleted">"Успешно удалено: "</string>
+    <string name="fail_to_delete">Не получилось удалить заметку</string>
+
+    <!--    Exit dialog-->
+    <string name="exit_dialog_title">Вы хотите выйти из приложения?</string>
+    <string name="exit_dialog_toast">Приложение Мои Заметки закрыто</string>
+</resources>
