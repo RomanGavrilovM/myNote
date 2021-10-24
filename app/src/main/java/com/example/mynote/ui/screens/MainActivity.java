@@ -1,5 +1,4 @@
 package com.example.mynote.ui.screens;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBarDrawerToggle;
@@ -25,8 +24,11 @@ import java.util.Map;
 import java.util.Objects;
 
 import com.example.mynote.R;
-
 import com.example.mynote.model.entities.Note;
+import com.example.mynote.ui.screens.AboutAppFragment;
+import com.example.mynote.ui.screens.Edit;
+import com.example.mynote.ui.screens.List;
+import com.example.mynote.ui.screens.Setting;
 
 public class MainActivity extends AppCompatActivity implements List.Controller, Edit.Controller {
 
@@ -36,6 +38,7 @@ public class MainActivity extends AppCompatActivity implements List.Controller, 
     private Toolbar toolbar;
     private DrawerLayout drawer;
     private NavigationView navigationView;
+
     private static Map<Integer, Fragment> createFragments() {
         Map<Integer, Fragment> newFragmentsMap = new HashMap<>();
 
@@ -63,6 +66,7 @@ public class MainActivity extends AppCompatActivity implements List.Controller, 
         inflater.inflate(R.menu.menu_note_list, menu);
         return super.onCreateOptionsMenu(menu);
     }
+
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() == R.id.new_note_menu) {
@@ -98,11 +102,13 @@ public class MainActivity extends AppCompatActivity implements List.Controller, 
             fragmentManager
                     .beginTransaction()
                     .replace(R.id.land_fragment_container, Edit.newInstance(item))
+                    .addToBackStack(null)
                     .commit();
         } else {
             fragmentManager
                     .beginTransaction()
                     .replace(R.id.main_fragment_container, Edit.newInstance(item))
+                    .addToBackStack(null)
                     .commit();
         }
     }
@@ -130,6 +136,7 @@ public class MainActivity extends AppCompatActivity implements List.Controller, 
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
     }
+
     private void initDrawerLayout() {
         drawer = findViewById(R.id.navigation_drawer_layout);
         ActionBarDrawerToggle drawerToggle = new ActionBarDrawerToggle(this, drawer, toolbar,

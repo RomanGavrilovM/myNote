@@ -5,6 +5,7 @@ import androidx.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+import java.util.Objects;
 
 
 import com.example.mynote.model.entities.Note;
@@ -29,7 +30,7 @@ public class NotesRepositoryImpl implements NotesRepository {
     @Override
     public boolean deleteNote(String uid){
         for (int i = 0; i < cache.size(); i++) {
-            if (cache.get(i).getUid().equals(uid)) {
+            if (Objects.equals(cache.get(i).getUid(), uid)) {
                 cache.remove(i);
                 return true;
             }

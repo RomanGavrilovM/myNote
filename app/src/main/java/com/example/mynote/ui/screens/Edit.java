@@ -73,7 +73,7 @@ public class Edit extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        initViews(view);
+        init(view);
         setupListeners();
         getArgs();
         fillViews();
@@ -85,12 +85,20 @@ public class Edit extends Fragment {
         super.onDestroy();
     }
 
-    private void initViews(View view) {
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+    }
+
+
+    private void init(View view) {
         titleEditText = view.findViewById(R.id.title_edit_text);
         detailEditText = view.findViewById(R.id.detail_edit_text);
         dateTimeEditText = view.findViewById(R.id.date_time_edit_text);
         dateTimeEditText.setInputType(InputType.TYPE_NULL);
         saveNoteButton = view.findViewById(R.id.save_note_button);
+
     }
 
     private void setupListeners() {

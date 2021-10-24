@@ -75,6 +75,7 @@ public class List extends Fragment {
         super.onDestroy();
     }
 
+
     private void initRecyclerView(View view) {
         recyclerView = view.findViewById(R.id.recycler_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -132,10 +133,10 @@ public class List extends Fragment {
             if (note != null) {
                 if (note.getUid() == null) {
                     app.getNotesRepository().createNote(note);
-                    checkDiffRepo();
+                   // checkDiffRepo();
                 } else {
                     app.getNotesRepository().updateNote(note.getUid(), note);
-                    checkDiffRepo();
+                   // checkDiffRepo();
                 }
             }
         }
