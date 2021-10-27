@@ -8,19 +8,19 @@ import java.util.UUID;
 import java.util.Objects;
 
 
-import com.example.mynote.model.entities.Note;
+import com.example.mynote.model.entities.NoteEntity;
 import com.example.mynote.model.repos.NotesRepository;
 public class NotesRepositoryImpl implements NotesRepository {
-    private final ArrayList<Note> cache = new ArrayList<>();
+    private final ArrayList<NoteEntity> cache = new ArrayList<>();
 
     @Override
-    public List<Note> getNotes() {
+    public List<NoteEntity> getNotes() {
         return new ArrayList<>(cache);
     }
 
     @Nullable
     @Override
-    public String createNote(Note note) {
+    public String createNote(NoteEntity note) {
         String newId = UUID.randomUUID().toString();
         note.setUid(newId);
         cache.add(note);
@@ -39,7 +39,7 @@ public class NotesRepositoryImpl implements NotesRepository {
     }
 
     @Override
-    public boolean updateNote(String uid, Note note) {
+    public boolean updateNote(String uid, NoteEntity note) {
         deleteNote(uid);
         note.setUid(uid);
         cache.add(note);

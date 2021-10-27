@@ -9,7 +9,7 @@ import java.util.Date;
 import java.util.Locale;
 
 
-public class Note implements Parcelable{
+public class NoteEntity implements Parcelable{
 
     @Nullable
     private String uid;
@@ -17,28 +17,28 @@ public class Note implements Parcelable{
     private String detail;
     private long creationDate;
 
-    public Note(String title, String detail) {
+    public NoteEntity(String title, String detail) {
         this.title = title;
         this.detail = detail;
         this.creationDate = Calendar.getInstance().getTimeInMillis();
     }
 
-    protected Note(Parcel in) {
+    protected NoteEntity(Parcel in) {
         uid = in.readString();
         title = in.readString();
         detail = in.readString();
         creationDate = in.readLong();
     }
 
-    public static final Creator<Note> CREATOR = new Creator<Note>() {
+    public static final Creator<NoteEntity> CREATOR = new Creator<NoteEntity>() {
         @Override
-        public Note createFromParcel(Parcel in) {
-            return new Note(in);
+        public NoteEntity createFromParcel(Parcel in) {
+            return new NoteEntity(in);
         }
 
         @Override
-        public Note[] newArray(int size) {
-            return new Note[size];
+        public NoteEntity[] newArray(int size) {
+            return new NoteEntity[size];
         }
     };
 

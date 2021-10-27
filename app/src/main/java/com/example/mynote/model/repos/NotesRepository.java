@@ -4,7 +4,7 @@ import androidx.annotation.Nullable;
 
 import java.util.List;
 
-import com.example.mynote.model.entities.Note;
+import com.example.mynote.model.entities.NoteEntity;
 
 /**
  * CRUD - Create Read Update Delete
@@ -12,12 +12,12 @@ import com.example.mynote.model.entities.Note;
 
 public interface NotesRepository {
 
-    List<Note> getNotes();
+    List<NoteEntity> getNotes();
 
     @Nullable
-    String createNote(Note note);
+    String createNote(NoteEntity note);
 
     boolean deleteNote(String uid);
 
-    boolean updateNote(String uid, Note note);
+    boolean updateNote(String uid, NoteEntity note);
 }

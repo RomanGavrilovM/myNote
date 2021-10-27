@@ -1,4 +1,4 @@
-package com.example.mynote.ui.screens;
+package com.example.mynote.ui.pages.Edit;
 
 
 import android.app.DatePickerDialog;
@@ -6,11 +6,11 @@ import android.app.TimePickerDialog;
 import android.content.Context;
 import android.os.Bundle;
 import android.text.InputType;
-import android.widget.Button;
-import android.widget.EditText;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -22,9 +22,9 @@ import java.util.Date;
 import java.util.Locale;
 
 import com.example.mynote.R;
-import com.example.mynote.model.entities.Note;
+import com.example.mynote.model.entities.NoteEntity;
 
-public class Edit extends Fragment {
+public class NoteEditFragment extends Fragment {
     public static final String NOTE_ARGS_KEY = "NOTE_ARGS_KEY";
 
     private Controller controller;
@@ -34,20 +34,19 @@ public class Edit extends Fragment {
     private EditText dateTimeEditText;
     private Button saveNoteButton;
 
-    private Note note;
+    private NoteEntity note;
     private long creationDate = 0;
-    private Object Note;
 
-    interface Controller {
-        void openNotesListScreen(Note item);
+    public interface Controller {
+        void openNotesListScreen(NoteEntity item);
     }
 
-    public static Edit newInstance(Note item) {
-        Edit edit = new Edit();
+    public static NoteEditFragment newInstance(NoteEntity item) {
+        NoteEditFragment noteEditFragment = new NoteEditFragment();
         Bundle bundle = new Bundle();
         bundle.putParcelable(NOTE_ARGS_KEY, item);
-        edit.setArguments(bundle);
-        return edit;
+        noteEditFragment.setArguments(bundle);
+        return noteEditFragment;
     }
 
     @Override
@@ -61,8 +60,6 @@ public class Edit extends Fragment {
         }
     }
 
-
-
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -73,7 +70,7 @@ public class Edit extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        init(view);
+        initViews(view);
         setupListeners();
         getArgs();
         fillViews();
@@ -85,20 +82,12 @@ public class Edit extends Fragment {
         super.onDestroy();
     }
 
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-    }
-
-
-    private void init(View view) {
+    private void initViews(View view) {
         titleEditText = view.findViewById(R.id.title_edit_text);
         detailEditText = view.findViewById(R.id.detail_edit_text);
         dateTimeEditText = view.findViewById(R.id.date_time_edit_text);
         dateTimeEditText.setInputType(InputType.TYPE_NULL);
         saveNoteButton = view.findViewById(R.id.save_note_button);
-
     }
 
     private void setupListeners() {
@@ -112,7 +101,7 @@ public class Edit extends Fragment {
 
     private void createOrEditNote() {
         if (note == null) {
-            note = new Note(
+            note = new NoteEntity(
                     titleEditText.getText().toString(),
                     detailEditText.getText().toString()
             );
@@ -131,6 +120,7 @@ public class Edit extends Fragment {
             calendar.set(Calendar.YEAR, year);
             calendar.set(Calendar.MONTH, month);
             calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+
             TimePickerDialog.OnTimeSetListener timeSetListener = (timePicker, hourOfDay, minute) -> {
                 calendar.set(Calendar.HOUR_OF_DAY, hourOfDay);
                 calendar.set(Calendar.MINUTE, minute);
@@ -139,14 +129,12 @@ public class Edit extends Fragment {
                 SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.y HH:mm", Locale.getDefault());
                 dateTimeEditText.setText(dateFormat.format(date));
             };
-
             new TimePickerDialog(getContext(),
                     timeSetListener,
                     calendar.get(Calendar.HOUR_OF_DAY),
                     calendar.get(Calendar.MINUTE),
                     true).show();
         };
-
         new DatePickerDialog(getContext(),
                 dateSetListener,
                 calendar.get(Calendar.YEAR),

@@ -1,4 +1,5 @@
-package com.example.mynote.ui.screens;
+package com.example.mynote.ui.pages;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBarDrawerToggle;
@@ -19,21 +20,26 @@ import android.widget.Toast;
 
 import com.google.android.material.navigation.NavigationView;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
 import com.example.mynote.R;
-import com.example.mynote.model.entities.Note;
-import com.example.mynote.ui.screens.AboutAppFragment;
-import com.example.mynote.ui.screens.Edit;
-import com.example.mynote.ui.screens.List;
-import com.example.mynote.ui.screens.Setting;
+import com.example.mynote.model.entities.NoteEntity;
+import com.example.mynote.ui.pages.about.AboutAppFragment;
+import com.example.mynote.ui.pages.Edit.NoteEditFragment;
+import com.example.mynote.ui.pages.List.NotesListFragment;
+import com.example.mynote.ui.pages.Settings.SettingsFragment;
 
-public class MainActivity extends AppCompatActivity implements List.Controller, Edit.Controller {
+public class MainActivity extends AppCompatActivity implements NotesListFragment.Controller, NoteEditFragment.Controller {
+    private final static String NOTES_LIST_TAG = "LIST";
+    private final static String NOTE_EDIT_TAG = "EDIT";
 
-    private final Map<Integer, Fragment> fragments = createFragments();
+    private final Map<Integer, Fragment> drawerFragmentsMap = createFragments();
     private final FragmentManager fragmentManager = getSupportFragmentManager();
+    private final List<NotesListFragment.Subscriber> subscribers = new ArrayList<>();
 
     private Toolbar toolbar;
     private DrawerLayout drawer;
@@ -42,8 +48,8 @@ public class MainActivity extends AppCompatActivity implements List.Controller, 
     private static Map<Integer, Fragment> createFragments() {
         Map<Integer, Fragment> newFragmentsMap = new HashMap<>();
 
-        newFragmentsMap.put(R.id.drawer_item_notes_list, new List());
-        newFragmentsMap.put(R.id.drawer_item_settings, new Setting());
+        newFragmentsMap.put(R.id.drawer_item_notes_list, new NotesListFragment());
+        newFragmentsMap.put(R.id.drawer_item_settings, new SettingsFragment());
         newFragmentsMap.put(R.id.drawer_item_about_app, new AboutAppFragment());
 
         return newFragmentsMap;
@@ -53,7 +59,6 @@ public class MainActivity extends AppCompatActivity implements List.Controller, 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
         initToolbar();
         initDrawerLayout();
         initNavigationView();
@@ -96,37 +101,55 @@ public class MainActivity extends AppCompatActivity implements List.Controller, 
     }
 
     @Override
-    public void openNoteEditScreen(@Nullable Note item) {
+    public void subscribe(NotesListFragment.Subscriber subscriber) {
+        subscribers.add(subscriber);
+    }
+
+    @Override
+    public void unsubscribe(NotesListFragment.Subscriber subscriber) {
+        subscribers.remove(subscriber);
+    }
+
+    public void notifySubscribers(NoteEntity note) {
+        for (NotesListFragment.Subscriber subscriber : subscribers) {
+            subscriber.onNoteSaved(note);
+        }
+    }
+
+    @Override
+    public void openNotesListScreen(NoteEntity item) {
+        fragmentManager
+                .beginTransaction()
+                .remove(Objects.requireNonNull(getSupportFragmentManager().findFragmentByTag(NOTE_EDIT_TAG)))
+                .show(Objects.requireNonNull(getSupportFragmentManager().findFragmentByTag(NOTES_LIST_TAG)))
+                .commit();
+        notifySubscribers(item);
+    }
+
+    @Override
+    public void openNoteEditScreen(@Nullable NoteEntity item) {
         int orientation = this.getResources().getConfiguration().orientation;
         if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
             fragmentManager
                     .beginTransaction()
-                    .replace(R.id.land_fragment_container, Edit.newInstance(item))
+                    .replace(R.id.land_fragment_container, NoteEditFragment.newInstance(item))
                     .addToBackStack(null)
                     .commit();
         } else {
             fragmentManager
                     .beginTransaction()
-                    .replace(R.id.main_fragment_container, Edit.newInstance(item))
+                    .hide(Objects.requireNonNull(getSupportFragmentManager().findFragmentByTag(NOTES_LIST_TAG)))
+                    .add(R.id.main_fragment_container, NoteEditFragment.newInstance(item), NOTE_EDIT_TAG)
                     .addToBackStack(null)
                     .commit();
         }
-    }
-
-    @Override
-    public void openNotesListScreen(Note item) {
-        fragmentManager
-                .beginTransaction()
-                .replace(R.id.main_fragment_container, List.newInstance(item))
-                .commit();
-        navigationView.setCheckedItem(R.id.drawer_item_notes_list);
     }
 
     private void openDefaultFragment(Bundle savedInstanceState) {
         if (savedInstanceState == null) {
             fragmentManager
                     .beginTransaction()
-                    .add(R.id.main_fragment_container, new List())
+                    .add(R.id.main_fragment_container, new NotesListFragment(), NOTES_LIST_TAG)
                     .commit();
             navigationView.setCheckedItem(R.id.drawer_item_notes_list);
         }
@@ -150,7 +173,7 @@ public class MainActivity extends AppCompatActivity implements List.Controller, 
         navigationView.setNavigationItemSelectedListener(item -> {
             fragmentManager
                     .beginTransaction()
-                    .replace(R.id.main_fragment_container, Objects.requireNonNull(fragments.get(item.getItemId())))
+                    .replace(R.id.main_fragment_container, Objects.requireNonNull(drawerFragmentsMap.get(item.getItemId())))
                     .commit();
             drawer.closeDrawer(GravityCompat.START);
             return true;

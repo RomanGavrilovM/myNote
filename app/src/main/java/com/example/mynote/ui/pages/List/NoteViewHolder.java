@@ -1,4 +1,4 @@
-package com.example.mynote.ui;
+package com.example.mynote.ui.pages.List;
 
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
@@ -8,7 +8,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.mynote.R;
-import com.example.mynote.model.entities.Note;
+import com.example.mynote.model.entities.NoteEntity;
 
 public class NoteViewHolder extends RecyclerView.ViewHolder {
     private final TextView titleTextView = itemView.findViewById(R.id.title_text_view);
@@ -17,15 +17,12 @@ public class NoteViewHolder extends RecyclerView.ViewHolder {
 
     private final OnItemClickListener clickListener;
 
-//    private NoteEntity note;
-
     public NoteViewHolder(@NonNull ViewGroup parent, @NonNull OnItemClickListener clickListener) {
         super(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_note_view_holder, parent, false));
         this.clickListener = clickListener;
     }
 
-    public void bind(Note note) {
-//        this.note = note;
+    public void bind(NoteEntity note) {
         titleTextView.setText(note.getTitle());
         detailTextView.setText(note.getDetail());
         dateTextView.setText(note.getCreationDate());

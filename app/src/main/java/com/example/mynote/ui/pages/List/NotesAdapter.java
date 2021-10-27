@@ -1,27 +1,26 @@
-package com.example.mynote.ui;
+package com.example.mynote.ui.pages.List;
 
 import android.view.ViewGroup;
+
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
 import java.util.ArrayList;
 import java.util.List;
 
-
-import com.example.mynote.model.entities.Note;
+import com.example.mynote.model.entities.NoteEntity;
 
 public class NotesAdapter extends RecyclerView.Adapter<NoteViewHolder> {
-    private List<Note> data = new ArrayList<>();
+    private List<NoteEntity> data = new ArrayList<>();
     private OnItemClickListener clickListener = null;
 
-    public void setData(List<Note> data) {
+    public void setData(List<NoteEntity> data) {
         this.data = data;
-        notifyDataSetChanged();
     }
 
-    public List<Note> getData(){
+    public List<NoteEntity> getData(){
         return new ArrayList<>(data);
     }
-
 
     @NonNull
     @Override
@@ -34,7 +33,7 @@ public class NotesAdapter extends RecyclerView.Adapter<NoteViewHolder> {
         holder.bind(getItem(position));
     }
 
-    private Note getItem(int position) {
+    private NoteEntity getItem(int position) {
         return data.get(position);
     }
 
@@ -46,4 +45,5 @@ public class NotesAdapter extends RecyclerView.Adapter<NoteViewHolder> {
     public void setOnItemClickListener(OnItemClickListener listener) {
         clickListener = listener;
     }
+
 }

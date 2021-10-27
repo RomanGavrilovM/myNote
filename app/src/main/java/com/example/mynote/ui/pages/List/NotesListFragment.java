@@ -1,4 +1,4 @@
-package com.example.mynote.ui.screens;
+package com.example.mynote.ui.pages.List;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -9,39 +9,41 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.PopupMenu;
 import android.widget.Toast;
-import androidx.recyclerview.widget.DiffUtil;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.mynote.App;
-import com.example.mynote.Impl.NotesDiffCallback;
 import com.example.mynote.R;
-import com.example.mynote.model.entities.Note;
-import com.example.mynote.ui.NotesAdapter;
-import com.example.mynote.ui.OnItemClickListener;
+import com.example.mynote.Impl.NotesDiffCallback;
+import com.example.mynote.model.entities.NoteEntity;
+import com.example.mynote.model.repos.NotesRepository;
 
-public class List extends Fragment {
-    private App app;
+@SuppressWarnings("FieldCanBeLocal")
+public class NotesListFragment extends Fragment {
     private final NotesAdapter adapter = new NotesAdapter();
+    private final Subscriber subscriber = this::onNoteSaved;
 
-    @SuppressWarnings("FieldCanBeLocal")
+    private App app;
+    private NotesRepository repository;
+
     private RecyclerView recyclerView;
     private Controller controller;
 
-    interface Controller {
-        void openNoteEditScreen(Note item);
+    public interface Controller {
+        void openNoteEditScreen(NoteEntity item);
+
+        void subscribe(Subscriber subscriber);
+
+        void unsubscribe(Subscriber subscriber);
     }
 
-    public static List newInstance(Note item) {
-        List list = new List();
-        Bundle bundle = new Bundle();
-        bundle.putParcelable(Edit.NOTE_ARGS_KEY, item);
-        list.setArguments(bundle);
-        return list;
+    public interface Subscriber {
+        void onNoteSaved(NoteEntity note);
     }
 
     @Override
@@ -63,39 +65,44 @@ public class List extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        app = (App) requireActivity().getApplication();
 
+        controller.subscribe(subscriber);
+        initRepository();
         initRecyclerView(view);
-        getArgs();
     }
 
     @Override
     public void onDestroy() {
+        controller.unsubscribe(subscriber);
         controller = null;
         super.onDestroy();
     }
 
+    private void initRepository() {
+        app = (App) requireActivity().getApplication();
+        repository = app.getNotesRepository();
+    }
 
     private void initRecyclerView(View view) {
         recyclerView = view.findViewById(R.id.recycler_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setAdapter(adapter);
-        adapter.setData(app.getNotesRepository().getNotes());
+        adapter.setData(repository.getNotes());
         adapter.setOnItemClickListener(new OnItemClickListener() {
             @Override
-            public void onItemClick(Note item, int position) {
+            public void onItemClick(NoteEntity item, int position) {
                 controller.openNoteEditScreen(item);
             }
 
             @Override
-            public void onItemLongClick(Note item, View view, int position) {
-                showNotePopupMenu(item, view, position);
+            public void onItemLongClick(NoteEntity item, View view, int position) {
+                showNotePopupMenu(item, view);
             }
         });
     }
 
     @SuppressLint("NonConstantResourceId")
-    private void showNotePopupMenu(Note item, View view, int position) {
+    private void showNotePopupMenu(NoteEntity item, View view) {
         PopupMenu popupMenu = new PopupMenu(requireContext(), view, Gravity.END);
         popupMenu.inflate(R.menu.note_item_popup_menu);
         popupMenu.setOnMenuItemClickListener(menuItem -> {
@@ -104,7 +111,7 @@ public class List extends Fragment {
                     controller.openNoteEditScreen(item);
                     break;
                 case R.id.delete_popup_menu_item:
-                    deleteItem(item, position);
+                    deleteItem(item);
                     break;
             }
             return true;
@@ -112,12 +119,11 @@ public class List extends Fragment {
         popupMenu.show();
     }
 
-    private void deleteItem(Note item, int position) {
-        if (app.getNotesRepository().deleteNote(item.getUid())) {
+    private void deleteItem(NoteEntity item) {
+        if (repository.deleteNote(item.getUid())) {
             Toast.makeText(requireActivity(),
                     getString(R.string.successfully_deleted) + item.getTitle(),
                     Toast.LENGTH_SHORT).show();
- //           adapter.notifyItemRemoved(position);
             checkDiffRepo();
         } else {
             Toast.makeText(requireActivity(),
@@ -126,24 +132,21 @@ public class List extends Fragment {
         }
     }
 
-    private void getArgs() {
-        Bundle data = getArguments();
-        if (data != null) {
-            Note note = data.getParcelable(Edit.NOTE_ARGS_KEY);
-            if (note != null) {
-                if (note.getUid() == null) {
-                    app.getNotesRepository().createNote(note);
-                   // checkDiffRepo();
-                } else {
-                    app.getNotesRepository().updateNote(note.getUid(), note);
-                   // checkDiffRepo();
-                }
+    public void onNoteSaved(NoteEntity note) {
+        if (note != null) {
+            if (note.getUid() == null) {
+                repository.createNote(note);
+            } else {
+                repository.updateNote(note.getUid(), note);
             }
+            checkDiffRepo();
         }
     }
-    public void checkDiffRepo(){
-        NotesDiffCallback notesDiffCallback = new NotesDiffCallback(adapter.getData(), app.getNotesRepository().getNotes());
+
+    public void checkDiffRepo() {
+        NotesDiffCallback notesDiffCallback = new NotesDiffCallback(adapter.getData(), repository.getNotes());
         DiffUtil.DiffResult result = DiffUtil.calculateDiff(notesDiffCallback, true);
+        adapter.setData(repository.getNotes());
         result.dispatchUpdatesTo(adapter);
     }
 }

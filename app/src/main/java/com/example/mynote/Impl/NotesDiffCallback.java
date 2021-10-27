@@ -5,14 +5,14 @@ import androidx.recyclerview.widget.DiffUtil;
 import java.util.List;
 import java.util.Objects;
 
-import com.example.mynote.model.entities.Note;
+import com.example.mynote.model.entities.NoteEntity;
 
 public class NotesDiffCallback extends DiffUtil.Callback {
 
-    private final List<Note> oldList;
-    private final List<Note> newList;
+    private final List<NoteEntity> oldList;
+    private final List<NoteEntity> newList;
 
-    public NotesDiffCallback(List<Note> oldList, List<Note> newList) {
+    public NotesDiffCallback(List<NoteEntity> oldList, List<NoteEntity> newList) {
         this.oldList = oldList;
         this.newList = newList;
     }
