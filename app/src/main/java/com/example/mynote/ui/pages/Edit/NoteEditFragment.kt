@@ -23,7 +23,19 @@ class NoteEditFragment : Fragment() {
     private var controller: Controller? = null
     private var binding: FragmentNoteEditBinding? = null
     private var note: NoteEntity? = null
-    private var creationDate: Long = 0
+    private var creationDate = 0L
+
+    companion object {
+        const val NOTE_ARGS_KEY = "NOTE_ARGS_KEY"
+        @JvmStatic
+        fun newInstance(item: NoteEntity?): NoteEditFragment {
+            val noteEditFragment = NoteEditFragment()
+            val bundle = Bundle()
+            bundle.putParcelable(NOTE_ARGS_KEY, item)
+            noteEditFragment.arguments = bundle
+            return noteEditFragment
+        }
+    }
 
     interface Controller {
         fun openNotesListScreen(item: NoteEntity?)
@@ -111,7 +123,7 @@ class NoteEditFragment : Fragment() {
     }
 
     private val args: Unit
-        private get() {
+        get() {
             val data = arguments
             if (data != null) note = data.getParcelable(NOTE_ARGS_KEY)
         }
@@ -124,16 +136,5 @@ class NoteEditFragment : Fragment() {
         }
     }
 
-    companion object {
-        const val NOTE_ARGS_KEY = "NOTE_ARGS_KEY"
 
-        @JvmStatic
-        fun newInstance(item: NoteEntity?): NoteEditFragment {
-            val noteEditFragment = NoteEditFragment()
-            val bundle = Bundle()
-            bundle.putParcelable(NOTE_ARGS_KEY, item)
-            noteEditFragment.arguments = bundle
-            return noteEditFragment
-        }
-    }
 }
